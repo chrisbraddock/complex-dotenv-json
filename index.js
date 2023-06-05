@@ -3,14 +3,25 @@ const fs = require("fs");
 
 module.exports = function dotenvJSON(options) {
   const jsonFile = (options && options.path) || ".env.json";
+  let envConfig;
 
-  const jsonString = fs.readFileSync(path.resolve(process.cwd(), jsonFile), {
-    encoding: "utf8"
-  });
-
+  // populate envConfig either via .js or .json file
   try {
-    const envConfig = JSON.parse(jsonString);
+    const jsFile = (options && options.jsPath) || ".env.js";
+    if (require.resolve(jsFile) {
+        envConfig = require(jsFile);
+    } else {
+      const jsonString = fs.readFileSync(path.resolve(process.cwd(), jsonFile), {
+        encoding: "utf8"
+      });
+      envConfig = JSON.parse(jsonString);
+    }
+  } catch (err) {
+    console.error(err);
+  }
 
+  // apply envConfig to environment
+  try {
     for (const key in envConfig) {
       if (process.env.hasOwnProperty(key)) {
         process.env[key] = process.env[key];
