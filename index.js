@@ -2,13 +2,13 @@ const path = require("path");
 const fs = require("fs");
 
 module.exports = function dotenvJSON(options) {
-  const jsonFile = (options && options.path) || ".env.json";
   let envConfig;
 
   // populate envConfig either via .js or .json file
   try {
+    const jsonFile = (options && options.path) || ".env.json";
     const jsFile = (options && options.jsPath) || ".env.js";
-    if (require.resolve(jsFile) {
+    if (require.resolve(jsFile)) {
         envConfig = require(jsFile);
     } else {
       const jsonString = fs.readFileSync(path.resolve(process.cwd(), jsonFile), {
